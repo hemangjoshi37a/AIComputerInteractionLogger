@@ -71,7 +71,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- OpenAI for inspiration on multi-modal AI systems
+- Open seource AI for inspiration on multi-modal AI systems
 - The open-source community for various tools and libraries used in this project
 
 ---
