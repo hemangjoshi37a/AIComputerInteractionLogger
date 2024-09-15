@@ -6,6 +6,13 @@ import threading
 import logging
 from datetime import datetime
 
+import pyscreenshot as ImageGrab
+import numpy as np
+import sounddevice as sd
+from pynput import mouse, keyboard
+import cv2
+import wave
+
 from .screenshot_recorder import ScreenshotRecorder
 from .mouse_keyboard_recorder import MouseKeyboardRecorder
 from .audio_recorder import AudioRecorder
