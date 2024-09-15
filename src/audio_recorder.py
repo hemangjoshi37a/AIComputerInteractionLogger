@@ -4,18 +4,20 @@ import sounddevice as sd
 import numpy as np
 
 class AudioRecorder:
-    def __init__(self, audio_file, channels=1, samplerate=44100):
+    def __init__(self, audio_file, config):
         self.audio_file = audio_file
-        self.channels = channels
-        self.samplerate = samplerate
+        self.channels = config['audio_channels']
+        self.samplerate = config['audio_samplerate']
         self.running = False
 
     def start(self):
         self.running = True
         threading.Thread(target=self._record, daemon=True).start()
+        logging.info("Audio recorder started")
 
     def stop(self):
         self.running = False
+        logging.info("Audio recorder stopped")
 
     def _record(self):
         def callback(indata, frames, time, status):
@@ -26,10 +28,7 @@ class AudioRecorder:
 
         try:
             with sd.InputStream(callback=callback, channels=self.channels, samplerate=self.samplerate):
-                logging.info("Audio recording started")
                 while self.running:
                     sd.sleep(100)
         except Exception as e:
             logging.error(f"Audio recording error: {e}")
-        finally:
-            logging.info("Audio recording stopped")

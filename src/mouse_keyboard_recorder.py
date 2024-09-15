@@ -3,11 +3,13 @@ import time
 import logging
 
 class MouseKeyboardRecorder:
-    def __init__(self, output_queue):
+    def __init__(self, output_queue, config):
         self.output_queue = output_queue
         self.mouse_listener = None
         self.keyboard_listener = None
         self.running = False
+        self.config = config
+        self.last_mouse_move_time = 0
 
     def start(self):
         self.running = True
@@ -35,30 +37,29 @@ class MouseKeyboardRecorder:
 
     def _on_move(self, x, y):
         if self.running:
-            event = ('mouse_move', time.time(), (x, y))
-            self.output_queue.put(event)
-            logging.debug(f"Mouse move event: {event}")
+            current_time = time.time()
+            if current_time - self.last_mouse_move_time >= self.config['mouse_move_throttle']:
+                self.output_queue.put(('mouse_move', current_time, (x, y)))
+                self.last_mouse_move_time = current_time
 
     def _on_click(self, x, y, button, pressed):
         if self.running:
-            event = ('mouse_click', time.time(), (x, y, str(button), pressed))
-            self.output_queue.put(event)
-            logging.debug(f"Mouse click event: {event}")
+            self.output_queue.put(('mouse_click', time.time(), (x, y, str(button), pressed)))
 
     def _on_scroll(self, x, y, dx, dy):
         if self.running:
-            event = ('mouse_scroll', time.time(), (x, y, dx, dy))
-            self.output_queue.put(event)
-            logging.debug(f"Mouse scroll event: {event}")
+            self.output_queue.put(('mouse_scroll', time.time(), (x, y, dx, dy)))
 
     def _on_press(self, key):
         if self.running:
-            event = ('key_press', time.time(), str(key))
-            self.output_queue.put(event)
-            logging.debug(f"Key press event: {event}")
+            key_str = str(key)
+            if key_str in self.config['mask_keys']:
+                key_str = "[MASKED]"
+            self.output_queue.put(('key_press', time.time(), key_str))
 
     def _on_release(self, key):
         if self.running:
-            event = ('key_release', time.time(), str(key))
-            self.output_queue.put(event)
-            logging.debug(f"Key release event: {event}")
+            key_str = str(key)
+            if key_str in self.config['mask_keys']:
+                key_str = "[MASKED]"
+            self.output_queue.put(('key_release', time.time(), key_str))
