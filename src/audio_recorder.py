@@ -1,8 +1,16 @@
-import threading
+import os
 import time
+import csv
+import queue
+import threading
 import logging
-import sounddevice as sd
+from datetime import datetime
+import pyscreenshot as ImageGrab
 import numpy as np
+import sounddevice as sd
+from pynput import mouse, keyboard
+import cv2
+import wave
 
 class AudioRecorder:
     def __init__(self, output_queue, channels=1, samplerate=44100):
@@ -10,6 +18,7 @@ class AudioRecorder:
         self.channels = channels
         self.samplerate = samplerate
         self.running = False
+        self.audio_buffer = []
 
     def start(self):
         self.running = True
@@ -23,7 +32,10 @@ class AudioRecorder:
             if status:
                 logging.warning(f"Audio callback status: {status}")
             if self.running:
-                self.output_queue.put(('audio', time.time(), indata.copy()))
+                self.audio_buffer.append(indata.copy())
+                if len(self.audio_buffer) >= 10:  # Save every 10 chunks
+                    self.output_queue.put(('audio', time.time(), np.concatenate(self.audio_buffer)))
+                    self.audio_buffer = []
 
         try:
             with sd.InputStream(callback=callback, channels=self.channels, samplerate=self.samplerate):
@@ -34,3 +46,6 @@ class AudioRecorder:
             logging.error(f"Audio recording error: {e}")
         finally:
             logging.info("Audio recording stopped")
+            if self.audio_buffer:
+                self.output_queue.put(('audio', time.time(), np.concatenate(self.audio_buffer)))
+
