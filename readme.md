@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://via.placeholder.com/150" alt="AI Computer Interaction Logger Logo" width="150px" height="150px">
+  <img src="https://github.com/user-attachments/assets/67f2d1b0-7e77-4b5b-85bc-3e9100dc2ff4" alt="AI Computer Interaction Logger Logo" width="193px" height="150px">
 
   # AI Computer Interaction Logger 🖥️🤖
 
