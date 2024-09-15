@@ -2,6 +2,7 @@ import threading
 import time
 import logging
 import pyscreenshot as ImageGrab
+import numpy as np
 
 class ScreenshotRecorder:
     def __init__(self, output_queue, frequency=10):
@@ -20,7 +21,8 @@ class ScreenshotRecorder:
         while self.running:
             try:
                 screenshot = ImageGrab.grab()
-                self.output_queue.put(('screenshot', time.time(), screenshot))
+                screenshot_np = np.array(screenshot)
+                self.output_queue.put(('screenshot', time.time(), screenshot_np))
                 time.sleep(1 / self.frequency)
             except Exception as e:
                 logging.error(f"Screenshot error: {e}")

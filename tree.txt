@@ -1,0 +1,25 @@
+(myenv) hemang@hemang-levono-15arr:~/Downloads/notebook_scripts/AIComputerInteractionLogger$ tree ./
+./
+├── docs
+│   └── usage_guide.md
+├── LICENSE
+├── readme.md
+├── recorder.py
+├── requirements.txt
+├── src
+│   ├── audio_recorder.py
+│   ├── __init__.py
+│   ├── mouse_keyboard_recorder.py
+│   ├── __pycache__
+│   │   ├── audio_recorder.cpython-312.pyc
+│   │   ├── __init__.cpython-312.pyc
+│   │   ├── mouse_keyboard_recorder.cpython-312.pyc
+│   │   ├── recorder.cpython-312.pyc
+│   │   └── screenshot_recorder.cpython-312.pyc
+│   ├── recorder.py
+│   └── screenshot_recorder.py
+└── tests
+    ├── __pycache__
+    │   └── test_recorder.cpython-312.pyc
+    └── test_recorder.py
+
