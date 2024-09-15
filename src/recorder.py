@@ -83,12 +83,31 @@ class DatasetRecorder:
             except Exception as e:
                 logging.error(f"Error saving data: {e}")
 
+
     def _process_event(self, event_type, timestamp, data):
         if event_type == 'screenshot':
             filename = f"screenshot_{int(timestamp)}.png"
             img_path = os.path.join(self.session_dir, filename)
-            data.save(img_path)
+            cv2.imwrite(img_path, cv2.cvtColor(data, cv2.COLOR_RGB2BGR))
             self.csv_writer.writerow([timestamp, event_type, filename])
+            logging.debug(f"Saved screenshot: {filename}")
+        elif event_type == 'audio':
+            filename = f"audio_{int(timestamp)}.wav"
+            audio_path = os.path.join(self.session_dir, filename)
+            self._save_audio_data(audio_path, data)
+            self.csv_writer.writerow([timestamp, event_type, filename])
+            logging.debug(f"Saved audio: {filename}")
         else:
             self.csv_writer.writerow([timestamp, event_type, data])
-        logging.debug(f"Recorded event: {event_type} at {timestamp}")
+            logging.debug(f"Recorded event: {event_type} at {timestamp}")
+
+    def _save_audio_data(self, audio_path, audio_data):
+        try:
+            with wave.open(audio_path, 'wb') as wf:
+                wf.setnchannels(self.audio_recorder.channels)
+                wf.setsampwidth(2)  # Assuming 16-bit audio
+                wf.setframerate(self.audio_recorder.samplerate)
+                wf.writeframes(audio_data.tobytes())
+            logging.info(f"Saved audio data to {audio_path}")
+        except Exception as e:
+            logging.error(f"Error saving audio data: {e}")
