@@ -1,0 +1,6 @@
+pyscreenshot==3.1
+numpy==1.26.2
+sounddevice==0.4.6
+pynput==1.7.6
+opencv-python==4.8.1.78
+PyYAML==5.4.1
