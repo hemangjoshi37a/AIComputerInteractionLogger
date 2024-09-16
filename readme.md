@@ -169,8 +169,40 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Open source AI community for inspiration on multi-modal AI systems
 - The open-source community for various tools and libraries used in this project
 
+
+## 📫 Connect with the Author
+
+[<img height="36" src="https://cdn.simpleicons.org/WhatsApp"/>](https://wa.me/917016525813) &nbsp;
+[<img height="36" src="https://cdn.simpleicons.org/telegram"/>](https://t.me/hjlabs) &nbsp;
+[<img height="36" src="https://cdn.simpleicons.org/Gmail"/>](mailto:hemangjoshi37a@gmail.com) &nbsp;
+[<img height="36" src="https://cdn.simpleicons.org/LinkedIn"/>](https://www.linkedin.com/in/hemang-joshi-046746aa) &nbsp;
+[<img height="36" src="https://cdn.simpleicons.org/facebook"/>](https://www.facebook.com/hemangjoshi37) &nbsp;
+[<img height="36" src="https://cdn.simpleicons.org/Twitter"/>](https://twitter.com/HemangJ81509525) &nbsp;
+[<img height="36" src="https://cdn.simpleicons.org/tumblr"/>](https://www.tumblr.com/blog/hemangjoshi37a-blog) &nbsp;
+[<img height="36" src="https://cdn.simpleicons.org/StackOverflow"/>](https://stackoverflow.com/users/8090050/hemang-joshi) &nbsp;
+[<img height="36" src="https://cdn.simpleicons.org/Instagram"/>](https://www.instagram.com/hemangjoshi37) &nbsp;
+[<img height="36" src="https://cdn.simpleicons.org/Pinterest"/>](https://in.pinterest.com/hemangjoshi37a) &nbsp;
+[<img height="36" src="https://cdn.simpleicons.org/Blogger"/>](http://hemangjoshi.blogspot.com) &nbsp;
+[<img height="36" src="https://cdn.simpleicons.org/similarweb"/>](https://hjlabs.in/) &nbsp;
+[<img height="36" src="https://cdn.simpleicons.org/gitlab"/>](https://gitlab.com/hemangjoshi37a) &nbsp;
+
+## 🚀 Dive into a World of Innovation
+
+Explore more groundbreaking projects that are shaping the future of technology:
+
+- [pyPortMan](https://github.com/hemangjoshi37a/pyPortMan): Revolutionizing port management
+- [transformers_stock_prediction](https://github.com/hemangjoshi37a/transformers_stock_prediction): AI-powered stock market insights
+- [TrendMaster](https://github.com/hemangjoshi37a/TrendMaster): Stay ahead of market trends
+- [hjAlgos_notebooks](https://github.com/hemangjoshi37a/hjAlgos_notebooks): A treasure trove of algorithmic wisdom
+- [AutoCut](https://github.com/hemangjoshi37a/AutoCut): Streamlining video editing workflows
+- [My_Projects](https://github.com/hemangjoshi37a/My_Projects): A showcase of diverse tech innovations
+- [Arduino and ESP8266 Wonders](https://github.com/hemangjoshi37a/my_Arduino): Pushing the boundaries of IoT
+- [TelegramTradeMsgBacktestML](https://github.com/hemangjoshi37a/TelegramTradeMsgBacktestML): Where finance meets machine learning
+
+
 ---
 
 <div align="center">
   Made with ❤️ for the AI and HCI research community
 </div>
+
