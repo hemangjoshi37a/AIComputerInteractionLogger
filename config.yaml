@@ -4,6 +4,9 @@ log_level: "INFO"
 
 # Screenshot settings
 screenshot_freq: 10
+smart_screenshot_triggering: false
+motion_threshold: 0.01
+min_screenshot_interval: 1.0
 
 # Audio settings
 audio_channels: 1
@@ -18,3 +21,24 @@ mouse_move_throttle: 0.05  # seconds
 
 # Privacy settings
 mask_keys: ["Key.enter"]  # List of keys to mask in the log
+privacy_masking_enabled: false
+blur_strength: 20
+mask_password_fields: true
+mask_sensitive_patterns: true
+mask_emails: true
+mask_credit_cards: true
+mask_phone_numbers: false
+mask_ssn: false
+custom_mask_regions: []
+
+# Window tracking settings
+window_tracking_enabled: true
+window_poll_interval: 0.5
+window_exclude_processes: []
+
+# Replay settings
+playback_speed: 1.0
+show_mouse_cursor: true
+show_keyboard_events: true
+show_window_info: true
+replay_window_size: "1280x720"

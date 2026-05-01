@@ -15,6 +15,7 @@ import sounddevice as sd
 from .screenshot_recorder import ScreenshotRecorder
 from .mouse_keyboard_recorder import MouseKeyboardRecorder
 from .audio_recorder import AudioRecorder
+from .window_tracker import WindowTracker
 
 class DatasetRecorder:
     def __init__(self, config_path="config.yaml"):
@@ -29,6 +30,7 @@ class DatasetRecorder:
         self.csv_writer = None
         self.audio_file = None
         self.audio_writer = None
+        self.window_tracker = None
         self.setup_logging()
 
     def load_config(self, config_path):
@@ -47,9 +49,12 @@ class DatasetRecorder:
             self._setup_csv_file()
             self._setup_audio_file()
 
-            self.screenshot_recorder = ScreenshotRecorder(self.data_queue, self.screenshot_freq)
-            self.mouse_keyboard_recorder = MouseKeyboardRecorder(self.data_queue)
+            self.screenshot_recorder = ScreenshotRecorder(self.data_queue, self.screenshot_freq, self.config)
+            self.mouse_keyboard_recorder = MouseKeyboardRecorder(self.data_queue, self.config)
             self.audio_recorder = AudioRecorder(self.audio_file)
+
+            if self.config.get('window_tracking_enabled', False):
+                self.window_tracker = WindowTracker(self.data_queue, self.config)
 
             self._start_recorders()
             self.save_thread = threading.Thread(target=self._save_data, daemon=True)
@@ -102,11 +107,15 @@ class DatasetRecorder:
         self.screenshot_recorder.start()
         self.mouse_keyboard_recorder.start()
         self.audio_recorder.start()
+        if self.window_tracker:
+            self.window_tracker.start()
 
     def _stop_recorders(self):
         self.screenshot_recorder.stop()
         self.mouse_keyboard_recorder.stop()
         self.audio_recorder.stop()
+        if self.window_tracker:
+            self.window_tracker.stop()
 
     def _close_files(self):
         if self.csv_file:
@@ -139,6 +148,8 @@ class DatasetRecorder:
         try:
             if event_type == 'screenshot':
                 self._save_screenshot(timestamp, data)
+            elif event_type == 'window_change':
+                self._save_window_event(timestamp, data)
             elif event_type in ['mouse_move', 'mouse_click', 'mouse_scroll', 'key_press', 'key_release']:
                 self._save_input_event(event_type, timestamp, data)
             else:
@@ -152,6 +163,9 @@ class DatasetRecorder:
         os.makedirs(os.path.dirname(img_path), exist_ok=True)
         cv2.imwrite(img_path, cv2.cvtColor(data, cv2.COLOR_RGB2BGR))
         self.csv_writer.writerow([timestamp, 'screenshot', filename])
+
+    def _save_window_event(self, timestamp, data):
+        self.csv_writer.writerow([timestamp, 'window_change', data])
 
     def _save_input_event(self, event_type, timestamp, data):
         csv_data = self._format_event_data(event_type, data)
