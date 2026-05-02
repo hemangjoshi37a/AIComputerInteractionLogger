@@ -8,6 +8,14 @@ smart_screenshot_triggering: false
 motion_threshold: 0.01
 min_screenshot_interval: 1.0
 
+# Activity-based adaptive recording settings
+adaptive_recording_enabled: false
+idle_threshold: 0.005
+high_activity_threshold: 0.05
+idle_frequency: 1.0
+high_activity_frequency: 30.0
+activity_window: 5
+
 # Audio settings
 audio_channels: 1
 audio_samplerate: 44100
@@ -23,12 +31,16 @@ mouse_move_throttle: 0.05  # seconds
 mask_keys: ["Key.enter"]  # List of keys to mask in the log
 privacy_masking_enabled: false
 blur_strength: 20
+privacy_sensitivity: "medium"  # low, medium, high
 mask_password_fields: true
 mask_sensitive_patterns: true
 mask_emails: true
 mask_credit_cards: true
 mask_phone_numbers: false
 mask_ssn: false
+mask_ip_addresses: false
+mask_urls: false
+mask_api_keys: false
 custom_mask_regions: []
 
 # Window tracking settings
@@ -42,3 +54,39 @@ show_mouse_cursor: true
 show_keyboard_events: true
 show_window_info: true
 replay_window_size: "1280x720"
+
+# Session summarization settings
+summarization_enabled: true
+summary_output_dir: "summaries"
+use_llm_summarization: false
+llm_api_key: null
+llm_model: "gpt-4"
+
+# Anomaly detection settings
+anomaly_detection_enabled: true
+anomaly_sensitivity: "medium"  # low, medium, high
+alert_threshold: "high"  # minimum severity to alert
+anomaly_output_dir: "anomalies"
+event_window_size: 100
+time_window_seconds: 30
+alert_cooldown: 60
+detect_rapid_credentials: true
+credential_entry_threshold: 5
+credential_entry_window: 3
+detect_unusual_navigation: true
+window_switch_threshold: 10
+sensitive_applications: ["bank", "finance", "password", "credential", "login"]
+detect_suspicious_copy_paste: true
+copy_paste_threshold: 3
+detect_unusual_times: true
+normal_working_hours: [9, 17]
+
+# Dataset labeling settings
+labeling_enabled: true
+label_output_dir: "labeled_datasets"
+use_ml_classification: false
+ml_model_path: null
+
+# Application-specific recording rules
+app_specific_rules_enabled: true
+rules_file: "app_rules.json"

@@ -16,6 +16,10 @@ from .screenshot_recorder import ScreenshotRecorder
 from .mouse_keyboard_recorder import MouseKeyboardRecorder
 from .audio_recorder import AudioRecorder
 from .window_tracker import WindowTracker
+from .session_summarizer import SessionSummarizer
+from .anomaly_detector import AnomalyDetector
+from .dataset_labeler import DatasetLabeler
+from .app_recording_rules import AppRecordingRules
 
 class DatasetRecorder:
     def __init__(self, config_path="config.yaml"):
@@ -31,6 +35,10 @@ class DatasetRecorder:
         self.audio_file = None
         self.audio_writer = None
         self.window_tracker = None
+        self.session_summarizer = SessionSummarizer(self.config)
+        self.anomaly_detector = AnomalyDetector(self.config)
+        self.dataset_labeler = DatasetLabeler(self.config)
+        self.app_recording_rules = AppRecordingRules(self.config)
         self.setup_logging()
 
     def load_config(self, config_path):
@@ -48,6 +56,10 @@ class DatasetRecorder:
             self.running = True
             self._setup_csv_file()
             self._setup_audio_file()
+
+            # Start anomaly detection
+            if self.anomaly_detector.enabled:
+                self.anomaly_detector.start_session()
 
             self.screenshot_recorder = ScreenshotRecorder(self.data_queue, self.screenshot_freq, self.config)
             self.mouse_keyboard_recorder = MouseKeyboardRecorder(self.data_queue, self.config)
@@ -74,6 +86,39 @@ class DatasetRecorder:
         self._stop_recorders()
         self.flush_data()
         self._close_files()
+
+        # Generate session summary
+        if self.session_dir and self.session_summarizer.enabled:
+            try:
+                logging.info("Generating session summary...")
+                summary = self.session_summarizer.summarize_session(self.session_dir)
+                if summary:
+                    logging.info(f"Session summary generated: {summary.session_id}")
+            except Exception as e:
+                logging.error(f"Error generating session summary: {e}")
+
+        # Generate anomaly report
+        if self.session_dir and self.anomaly_detector.enabled:
+            try:
+                logging.info("Generating anomaly report...")
+                session_id = os.path.basename(self.session_dir)
+                report = self.anomaly_detector.generate_report(session_id)
+                if report:
+                    self.anomaly_detector.save_report(report)
+                    logging.info(f"Anomaly report generated: {report.total_anomalies} anomalies detected")
+            except Exception as e:
+                logging.error(f"Error generating anomaly report: {e}")
+
+        # Generate dataset labels
+        if self.session_dir and self.dataset_labeler.enabled:
+            try:
+                logging.info("Generating dataset labels...")
+                labeled = self.dataset_labeler.label_session(self.session_dir)
+                if labeled:
+                    logging.info(f"Dataset labeled: {labeled.primary_category} with {len(labeled.activity_tags)} activities")
+            except Exception as e:
+                logging.error(f"Error generating dataset labels: {e}")
+
         logging.info("Recording stopped and data saved.")
 
     def flush_data(self):
@@ -146,6 +191,21 @@ class DatasetRecorder:
 
     def _process_event(self, event_type, timestamp, data):
         try:
+            # Feed event to anomaly detector
+            if self.anomaly_detector.enabled:
+                self.anomaly_detector.process_event(event_type, timestamp, data)
+
+            # Update app-specific recording rules on window change
+            if event_type == 'window_change' and self.app_recording_rules.enabled:
+                config = self.app_recording_rules.update_window(data)
+                # Update screenshot recorder frequency
+                if hasattr(self, 'screenshot_recorder'):
+                    self.screenshot_recorder.current_frequency = config.screenshot_frequency
+                    # Update privacy settings
+                    if hasattr(self.screenshot_recorder, 'privacy_masker'):
+                        self.screenshot_recorder.privacy_masker.enabled = config.privacy_enabled
+                        self.screenshot_recorder.privacy_masker.config.update(config.privacy_rules)
+
             if event_type == 'screenshot':
                 self._save_screenshot(timestamp, data)
             elif event_type == 'window_change':
