@@ -4,6 +4,7 @@ log_level: "INFO"
 
 # Screenshot settings
 screenshot_freq: 10
+capture_region: null  # [left, top, right, bottom] or null for full screen
 smart_screenshot_triggering: false
 motion_threshold: 0.01
 min_screenshot_interval: 1.0

@@ -38,6 +38,7 @@ Our goal is to provide researchers and developers with high-quality, diverse dat
 - 🖼️ High-frequency screenshot capture
   - Configurable capture rate (default: 10 fps)
   - Supports multiple monitors
+  - Option to capture specific screen regions
   - Images saved in PNG format for high quality and compression
 - 🖱️ Precise mouse movement and click logging
   - Tracks mouse coordinates (x, y)
@@ -155,7 +156,7 @@ To report bugs or request features, please open an issue on our [GitHub Issues p
 
 Future development plans include:
 
-- [ ] Support for video capture of specific screen regions
+- [x] Support for video capture of specific screen regions
 - [ ] Integration with popular machine learning frameworks
 - [ ] Web browser extension for capturing in-browser events
 - [ ] Multi-language support for broader accessibility

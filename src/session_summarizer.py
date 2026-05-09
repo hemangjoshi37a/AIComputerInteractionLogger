@@ -47,6 +47,9 @@ class SessionSummary:
     key_actions: List[str]
     activity_patterns: Dict[str, Any]
     natural_language_summary: str
+    task_goal: Optional[str] = None
+    task_milestones: Optional[List[str]] = None
+    success_criteria: Optional[List[str]] = None
 
 
 class SessionSummarizer:
@@ -110,6 +113,102 @@ class SessionSummarizer:
 
         return events
 
+    def _generate_llm_summary(self, timeline_summary: str) -> Optional[Dict[str, Any]]:
+        """Call standard Gemini or OpenAI REST endpoints to synthesize goals and subtasks."""
+        if not self.llm_api_key:
+            logging.warning("use_llm_summarization is True, but llm_api_key is missing in config.")
+            return None
+
+        # Build prompt
+        prompt = (
+            "You are an AI data engineering assistant. Below is a raw sequence of user actions (HCI timeline) "
+            "captured during a computer-use session. Your task is to analyze this log and synthesize: \n"
+            "1. The high-level task goal (what task was the user trying to accomplish?)\n"
+            "2. Step-by-step logical milestones/subtasks.\n"
+            "3. Tangible success evaluation criteria.\n"
+            "4. A concise natural language narrative summary.\n\n"
+            f"HCI Timeline:\n{timeline_summary}\n\n"
+            "You MUST respond ONLY with a valid, clean JSON object matching this schema EXACTLY:\n"
+            "{\n"
+            '  "task_goal": "A single sentence explaining the user\'s high-level task goal.",\n'
+            '  "task_milestones": ["Milestone 1...", "Milestone 2..."],\n'
+            '  "success_criteria": ["Criteria 1...", "Criteria 2..."],\n'
+            '  "summary": "A coherent natural language summary describing the actions taken."\n'
+            "}\n"
+            "Do not include any extra text, markdown code blocks, or conversational preambles. Output ONLY raw JSON."
+        )
+
+        import urllib.request
+        import urllib.error
+        import time
+
+        model = str(self.llm_model).lower()
+        is_gemini = "gemini" in model or "gpt" not in model
+
+        if is_gemini:
+            # Standard Gemini API format
+            endpoint = f"https://generativelanguage.googleapis.com/v1beta/models/{self.llm_model}:generateContent?key={self.llm_api_key}"
+            payload = {
+                "contents": [{
+                    "parts": [{
+                        "text": prompt
+                    }]
+                }],
+                "generationConfig": {
+                    "responseMimeType": "application/json"
+                }
+            }
+            headers = {"Content-Type": "application/json"}
+        else:
+            # Standard OpenAI API format
+            endpoint = "https://api.openai.com/v1/chat/completions"
+            payload = {
+                "model": self.llm_model,
+                "messages": [
+                    {"role": "system", "content": "You are a precise data engineering assistant that outputs raw JSON."},
+                    {"role": "user", "content": prompt}
+                ],
+                "response_format": {"type": "json_object"}
+            }
+            headers = {
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {self.llm_api_key}"
+            }
+
+        retries = 3
+        backoff = 2.0
+        data_bytes = json.dumps(payload).encode('utf-8')
+
+        for attempt in range(retries):
+            try:
+                req = urllib.request.Request(endpoint, data=data_bytes, headers=headers, method="POST")
+                with urllib.request.urlopen(req, timeout=30) as response:
+                    res_bytes = response.read()
+                    res_json = json.loads(res_bytes.decode('utf-8'))
+
+                    if is_gemini:
+                        raw_text = res_json["candidates"][0]["content"]["parts"][0]["text"]
+                    else:
+                        raw_text = res_json["choices"][0]["message"]["content"]
+
+                    raw_text = raw_text.strip()
+                    if raw_text.startswith("```"):
+                        raw_text = raw_text.split("```")[1]
+                        if raw_text.startswith("json"):
+                            raw_text = raw_text[4:]
+                        raw_text = raw_text.strip()
+
+                    parsed = json.loads(raw_text)
+                    return parsed
+            except Exception as e:
+                logging.warning(f"LLM API Call Attempt {attempt + 1} failed: {e}")
+                if attempt < retries - 1:
+                    time.sleep(backoff)
+                    backoff *= 2
+                else:
+                    logging.error("All LLM API Call attempts failed. Falling back to rule-based summary.")
+        return None
+
     def _analyze_session(self, events: List[ActionEvent], session_dir: str) -> SessionSummary:
         """Analyze events and generate a structured summary."""
         if not events:
@@ -140,11 +239,32 @@ class SessionSummarizer:
         # Analyze activity patterns
         activity_patterns = self._analyze_activity_patterns(events)
 
-        # Generate natural language summary
+        # Generate rule-based default narrative summary
         natural_summary = self._generate_natural_summary(
             duration, event_breakdown, windows_visited,
             workflows, key_actions, activity_patterns
         )
+
+        # Initialize LLM fields
+        task_goal = None
+        task_milestones = None
+        success_criteria = None
+
+        if self.use_llm and self.llm_api_key:
+            # Build textual timeline to feed the LLM
+            timeline_items = []
+            for ev in events[:100]:  # Limit to first 100 relevant events to keep context small and fast
+                if ev.event_type in ["mouse_click", "key_press", "window_change"]:
+                    elapsed = ev.timestamp - start_time
+                    timeline_items.append(f"[{elapsed:.1f}s] {ev.event_type}: {ev.data}")
+            timeline_summary = "\n".join(timeline_items)
+
+            llm_result = self._generate_llm_summary(timeline_summary)
+            if llm_result:
+                task_goal = llm_result.get("task_goal")
+                task_milestones = llm_result.get("task_milestones")
+                success_criteria = llm_result.get("success_criteria")
+                natural_summary = llm_result.get("summary", natural_summary)
 
         # Create session ID from directory name
         session_id = os.path.basename(session_dir)
@@ -160,7 +280,10 @@ class SessionSummarizer:
             workflows=workflows,
             key_actions=key_actions,
             activity_patterns=activity_patterns,
-            natural_language_summary=natural_summary
+            natural_language_summary=natural_summary,
+            task_goal=task_goal,
+            task_milestones=task_milestones,
+            success_criteria=success_criteria
         )
 
     def _extract_windows(self, events: List[ActionEvent]) -> List[str]:

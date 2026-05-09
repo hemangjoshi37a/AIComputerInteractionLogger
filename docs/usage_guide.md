@@ -39,6 +39,7 @@ You can customize the recording process by adjusting the following parameters:
 
 - `base_output_dir`: The directory where the dataset will be saved
 - `screenshot_freq`: The frequency of screenshot captures (in Hz)
+- `capture_region`: Set a specific screen region to capture (e.g. `[0, 0, 800, 600]`), or `null` for full screen.
 
 ## Output
 

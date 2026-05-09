@@ -13,6 +13,7 @@ class ScreenshotRecorder:
         self.base_frequency = frequency
         self.config = config or {}
         self.running = False
+        self.capture_region = self.config.get('capture_region', None)
 
         # Smart triggering settings
         self.smart_triggering = self.config.get('smart_screenshot_triggering', False)
@@ -46,7 +47,10 @@ class ScreenshotRecorder:
     def _record(self):
         while self.running:
             try:
-                screenshot = ImageGrab.grab()
+                if self.capture_region and len(self.capture_region) == 4:
+                    screenshot = ImageGrab.grab(bbox=tuple(self.capture_region))
+                else:
+                    screenshot = ImageGrab.grab()
                 screenshot_np = np.array(screenshot)
 
                 # Apply privacy masking

@@ -1,0 +1,111 @@
+Timestamp,EventType,Data
+1778157243.2783504,screenshot,screenshot_0000.png
+1778157244.3283503,mouse_move,"x=100, y=100"
+1778157244.3783503,mouse_move,"x=178, y=152"
+1778157244.4283502,mouse_move,"x=255, y=202"
+1778157244.4783502,mouse_move,"x=329, y=249"
+1778157244.52835,mouse_move,"x=401, y=293"
+1778157244.57835,mouse_move,"x=470, y=334"
+1778157244.62835,mouse_move,"x=536, y=370"
+1778157244.67835,mouse_move,"x=600, y=403"
+1778157244.72835,mouse_move,"x=661, y=431"
+1778157244.7783499,mouse_move,"x=719, y=455"
+1778157244.8283498,mouse_move,"x=773, y=473"
+1778157244.8783498,mouse_move,"x=825, y=486"
+1778157244.9283497,mouse_move,"x=873, y=493"
+1778157244.9783497,mouse_move,"x=918, y=495"
+1778157245.0283496,mouse_move,"x=960, y=490"
+1778157245.1283495,mouse_click,"x=960, y=490, button=Button.left, pressed=True"
+1778157245.1783495,mouse_click,"x=960, y=490, button=Button.left, pressed=False"
+1778157245.1783495,screenshot,screenshot_0001.png
+1778157245.3892312,key_press,key='a'
+1778157245.3892312,screenshot,screenshot_0002.png
+1778157245.5655887,key_press,key='d'
+1778157245.5655887,screenshot,screenshot_0003.png
+1778157245.7239172,key_press,key='m'
+1778157245.7239172,screenshot,screenshot_0004.png
+1778157245.9915545,key_press,key='o'
+1778157245.9915545,screenshot,screenshot_0005.png
+1778157246.1765273,key_press,key=Key.backspace
+1778157246.1765273,screenshot,screenshot_0006.png
+1778157246.4294395,key_press,key='i'
+1778157246.4294395,screenshot,screenshot_0007.png
+1778157246.7045918,key_press,key='n'
+1778157246.7045918,screenshot,screenshot_0008.png
+1778157246.85333,key_press,key='@'
+1778157246.85333,screenshot,screenshot_0009.png
+1778157246.976297,key_press,key='e'
+1778157246.976297,screenshot,screenshot_0010.png
+1778157247.1247973,key_press,key='n'
+1778157247.1247973,screenshot,screenshot_0011.png
+1778157247.3327332,key_press,key='t'
+1778157247.3327332,screenshot,screenshot_0012.png
+1778157247.5380247,key_press,key='e'
+1778157247.5380247,screenshot,screenshot_0013.png
+1778157247.7113163,key_press,key='r'
+1778157247.7113163,screenshot,screenshot_0014.png
+1778157247.845339,key_press,key='p'
+1778157247.845339,screenshot,screenshot_0015.png
+1778157247.9881065,key_press,key='r'
+1778157247.9881065,screenshot,screenshot_0016.png
+1778157248.1987305,key_press,key='i'
+1778157248.1987305,screenshot,screenshot_0017.png
+1778157248.4078236,key_press,key='s'
+1778157248.4078236,screenshot,screenshot_0018.png
+1778157248.599497,key_press,key='e'
+1778157248.599497,screenshot,screenshot_0019.png
+1778157248.7028522,key_press,key='.'
+1778157248.7028522,screenshot,screenshot_0020.png
+1778157248.8997154,key_press,key='a'
+1778157248.8997154,screenshot,screenshot_0021.png
+1778157249.0859523,key_press,key='i'
+1778157249.0859523,screenshot,screenshot_0022.png
+1778157249.1359522,mouse_move,"x=960, y=490"
+1778157249.1859522,mouse_move,"x=961, y=497"
+1778157249.2359521,mouse_move,"x=962, y=506"
+1778157249.285952,mouse_move,"x=963, y=514"
+1778157249.335952,mouse_move,"x=964, y=523"
+1778157249.385952,mouse_move,"x=965, y=532"
+1778157249.435952,mouse_move,"x=965, y=542"
+1778157249.485952,mouse_move,"x=965, y=551"
+1778157249.5359519,mouse_move,"x=964, y=561"
+1778157249.5859518,mouse_move,"x=963, y=570"
+1778157249.6359518,mouse_move,"x=962, y=580"
+1778157249.6859517,mouse_move,"x=960, y=590"
+1778157249.7859516,mouse_click,"x=960, y=590, button=Button.left, pressed=True"
+1778157249.8359516,mouse_click,"x=960, y=590, button=Button.left, pressed=False"
+1778157249.8359516,screenshot,screenshot_0023.png
+1778157249.93188,key_press,key='s'
+1778157249.93188,screenshot,screenshot_0024.png
+1778157250.0798352,key_press,key='e'
+1778157250.0798352,screenshot,screenshot_0025.png
+1778157250.1631436,key_press,key='c'
+1778157250.1631436,screenshot,screenshot_0026.png
+1778157250.2615936,key_press,key='r'
+1778157250.2615936,screenshot,screenshot_0027.png
+1778157250.437026,key_press,key='e'
+1778157250.437026,screenshot,screenshot_0028.png
+1778157250.5352747,key_press,key='t'
+1778157250.5352747,screenshot,screenshot_0029.png
+1778157250.6590714,key_press,key='9'
+1778157250.6590714,screenshot,screenshot_0030.png
+1778157250.8153625,key_press,key='9'
+1778157250.8153625,screenshot,screenshot_0031.png
+1778157250.8653624,mouse_move,"x=960, y=590"
+1778157250.9153624,mouse_move,"x=962, y=598"
+1778157250.9653623,mouse_move,"x=964, y=607"
+1778157251.0153623,mouse_move,"x=966, y=616"
+1778157251.0653622,mouse_move,"x=967, y=626"
+1778157251.1153622,mouse_move,"x=967, y=635"
+1778157251.1653621,mouse_move,"x=967, y=644"
+1778157251.215362,mouse_move,"x=967, y=652"
+1778157251.265362,mouse_move,"x=967, y=660"
+1778157251.315362,mouse_move,"x=966, y=668"
+1778157251.365362,mouse_move,"x=965, y=674"
+1778157251.415362,mouse_move,"x=964, y=680"
+1778157251.4653618,mouse_move,"x=962, y=684"
+1778157251.5153618,mouse_move,"x=961, y=688"
+1778157251.5653617,mouse_move,"x=960, y=690"
+1778157251.6653616,mouse_click,"x=960, y=690, button=Button.left, pressed=True"
+1778157251.6653616,screenshot,screenshot_0032.png
+1778157251.7453616,mouse_click,"x=960, y=690, button=Button.left, pressed=False"

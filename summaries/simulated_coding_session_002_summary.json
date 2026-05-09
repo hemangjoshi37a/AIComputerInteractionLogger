@@ -1,0 +1,45 @@
+{
+  "session_id": "simulated_coding_session_002",
+  "start_time": "2026-05-07T18:04:06.265476",
+  "end_time": "2026-05-07T18:04:27.711473",
+  "duration_seconds": 21.4459969997406,
+  "total_events": 178,
+  "event_breakdown": {
+    "screenshot": 6,
+    "key_press": 160,
+    "mouse_move": 10,
+    "mouse_click": 2
+  },
+  "windows_visited": [],
+  "workflows": [
+    {
+      "step_number": 1,
+      "action_type": "key_press",
+      "description": "complex Keyboard input sequence with 162 actions",
+      "start_time": "2026-05-07T18:04:07.382020",
+      "end_time": "2026-05-07T18:04:27.711473",
+      "duration": 20.32945227622986,
+      "event_count": 162,
+      "action_breakdown": {
+        "key_press": 160,
+        "mouse_click": 2
+      }
+    }
+  ],
+  "key_actions": [
+    "Mouse click at x=600, y=250, button=Button.left, pressed=True",
+    "Mouse click at x=600, y=250, button=Button.left, pressed=False"
+  ],
+  "activity_patterns": {
+    "average_interval": 0.12116382485729153,
+    "min_interval": 0.0,
+    "max_interval": 1.1165447235107422,
+    "activity_level": "high",
+    "total_active_time": 21.4459969997406,
+    "idle_periods": 0
+  },
+  "natural_language_summary": "This session lasted 21.4 seconds and recorded 178 events. The user interacted with 0 different windows: . The session contained 1 distinct workflow segments. Overall activity level was high. Key actions included: Mouse click at x=600, y=250, button=Button.left, pressed=True, Mouse click at x=600, y=250, button=Button.left, pressed=False.",
+  "task_goal": null,
+  "task_milestones": null,
+  "success_criteria": null
+}
